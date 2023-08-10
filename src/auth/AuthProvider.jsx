@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import axios from 'axios';
 
 export const AuthContext = createContext();
@@ -16,8 +16,7 @@ const AuthProvider = ({ children }) => {
     const storedUsername = localStorage.getItem('username');
     const storedUserId = localStorage.getItem('userId');
 
-    if (token != undefined) {
-      console.log("Token:", token);
+    if (token) {
       validateToken(token).then((isValid) => {
         if (isValid) {
           setAuthToken(token);
@@ -45,7 +44,6 @@ const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await axios.post(`${apiUrl}/api/v1/challenge/invalidate-token`);
-      //localStorage.clear(); 
       localStorage.removeItem('authToken');
       localStorage.removeItem('username');
       localStorage.removeItem('userId');
