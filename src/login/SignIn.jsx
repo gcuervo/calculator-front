@@ -28,7 +28,7 @@ export const SignIn = () => {
 
   const createUserAndSignIn = async () => {
     try {
-      await axios.post(`${apiUrl}/api/v1/challenge/users/create`, {
+      await axios.post(`${apiUrl}/api/v1/challenge/users`, {
         username: email,
         password
       });
