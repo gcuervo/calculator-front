@@ -16,6 +16,19 @@ const AuthProvider = ({ children }) => {
     const storedUsername = localStorage.getItem('username');
     const storedUserId = localStorage.getItem('userId');
 
+    const validateToken = async (token) => {
+      try {
+        const response = await axios.get(`${apiUrl}/api/v1/challenge/validate-token`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        return response.status === 200;
+      } catch (error) {
+        return false;
+      }
+    };
+
     if (token) {
       validateToken(token).then((isValid) => {
         if (isValid) {
@@ -27,19 +40,7 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const validateToken = async (token) => {
-    try {
-      const response = await axios.get(`${apiUrl}/api/v1/challenge/validate-token`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      return response.status === 200;
-    } catch (error) {
-      console.error("Error validating token:", error);
-      return false;
-    }
-  };
+
 
   const logout = async () => {
     try {
