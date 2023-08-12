@@ -24,9 +24,14 @@ export const SignIn = () => {
 
 
   const apiUrl = process.env.REACT_APP_API_URL;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
 
   const createUserAndSignIn = async () => {
+    if (!emailRegex.test(email)) {
+      setErrorMessage('Please, provide a valid email address.');
+      return; 
+    }
     try {
       await axios.post(`${apiUrl}/api/v1/challenge/users`, {
         username: email,
@@ -43,6 +48,10 @@ export const SignIn = () => {
   const handleSignIn = async (event) => {
     if (event) {
       event.preventDefault();
+    }
+    if (!emailRegex.test(email)) {
+      setErrorMessage('Please, provide a valid email address.');
+      return; 
     }
     try {
       const response = await axios.post(`${apiUrl}/api/v1/challenge/auth`, {
