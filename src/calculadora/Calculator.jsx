@@ -82,8 +82,11 @@ const Calculator = () => {
       setResult(null);
       if (error.response && error.response.status === 403 && error.response.data.message === "Insufficient funds") {
         setErrorMsg("Insufficient funds");
+      } else if(error.response && error.response.status === 400){
+        setErrorMsg("Error in the parameters");
       } else {
         setErrorMsg("There was an error processing your request");
+
       }
     }
   };
